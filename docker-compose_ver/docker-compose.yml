@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  web:
+    image: python:3.9-slim  # 使用官方 Python 基礎映像檔
+    working_dir: /app       # 設置工作目錄
+    volumes:
+      - ./src:/app/src      # 挂載應用程式代碼
+      - ./templates:/app/templates  # 挂載模板文件
+    ports:
+      - "8787:8787"         # 映射埠
+    environment:
+      - PYTHONUNBUFFERED=1  # 環境變數
+    command: >
+      sh -c "
+      pip install fastapi uvicorn jinja2 &&
+      uvicorn src.main:app --host 0.0.0.0 --port 8787
+      "
